@@ -1,18 +1,20 @@
 {
-  "name": "nodejs-complete-guide",
+  "name": "date_planning_app",
   "version": "1.0.0",
-  "description": "Complete Node.js Guide",
+  "description": "Date Planning App | Team Project CSE 341",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "start-server": "node app.js"
+    "start-server": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Maximilian Schwarzmüller",
+  "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^1.18.3"
+  "bugs": {
+    "url": "https://github.com/Deaton879/Date_Planning_App"
   },
+  "homepage": "https://github.com/Deaton879/Date_Planning_App#readme",
+  
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -34,5 +36,8 @@
     "pdfkit": "^0.8.3",
     "pug": "^2.0.4",
     "sequelize": "^5.22.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
