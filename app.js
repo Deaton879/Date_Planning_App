@@ -3,8 +3,10 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const PORT = process.env.PORT || 5000 // So we can run on heroku || (OR) localhost:5000
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
@@ -13,7 +15,7 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const MONGODB_URI =
-  'mongodb+srv://maximilian:9u4biljMQc4jjqbe@cluster0-ntrwp.mongodb.net/shop';
+  'mongodb+srv://Deaton879:Mongoacct1@dateplanningapp.bkq8h.mongodb.net/date-planning-app?retryWrites=true&w=majority';
 
 const app = express();
 const store = new MongoDBStore({
@@ -30,7 +32,7 @@ const fileStorage = multer.diskStorage({
     cb(null, new Date().toISOString() + '-' + file.originalname);
   }
 });
-
+  
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === 'image/png' ||
@@ -109,10 +111,25 @@ app.use((error, req, res, next) => {
   });
 });
 
+const corsOptions = {
+  origin: "https://shrouded-dawn-21361.herokuapp.com/",
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
+const options = {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  family: 4
+};
+
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGODB_URI, options)
   .then(result => {
-    app.listen(3000);
+    app.listen(PORT);
   })
   .catch(err => {
     console.log(err);
