@@ -112,7 +112,7 @@ app.use((error, req, res, next) => {
 });
 
 const corsOptions = {
-  origin: "https://shrouded-dawn-21361.herokuapp.com/",
+  origin: "https://git.heroku.com/date-planning-app.git",
   optionsSuccessStatus: 200
 };
 
