@@ -112,7 +112,7 @@ app.use((error, req, res, next) => {
 });
 
 const corsOptions = {
-  origin: "https://git.heroku.com/date-planning-app.git",
+  origin: " https://date-planning-app.herokuapp.com/",
   optionsSuccessStatus: 200
 };
 
