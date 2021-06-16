@@ -2,6 +2,7 @@
   "name": "date_planning_app",
   "version": "1.0.0",
   "description": "Date Planning App | Team Project CSE 341",
+  "engines": {"node": "14.x"},
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
