@@ -1,6 +1,4 @@
 const App = async (zipCode, types = "park+museum+food") => {
-  const myPlaces = document.getElementById("main");
-
   const obj = (
     { name, open_now },
     //Temporary default photo
@@ -18,17 +16,27 @@ const App = async (zipCode, types = "park+museum+food") => {
     //reaches out to local api to return
     const response = await fetch(apiURL);
     const json = await response.json();
-    console.log(JSON.stringify(json));
-    json.forEach((element) => {
+    console.log(json);
+
+    // This is not working at this time.
+    json.results.forEach((element) => {
+      const myPlaces = document.getElementById("main");
       //get photos image
       //const dispimage = image(el);
-      const place = obj(a, image);
-      //append place to products page
-      myPlaces.append(place);
+      const place = obj(element);
+      //add place to products page
+
+      myPlaces.append(stringToHTML(place));
     });
   } catch (error) {
     console.log("Something went wrong" + error);
   }
+};
+
+var stringToHTML = function (str) {
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(str, "text/html");
+  return doc.body;
 };
 
 //we should add get current location with this one.
