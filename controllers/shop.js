@@ -1,3 +1,4 @@
+require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const fetch = require("node-fetch");
@@ -153,10 +154,10 @@ exports.getGooglePlaces = async (req, res, next) => {
     zipCode = "84302";
   }
   const image = ({ photo_reference }) =>
-    `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${ref}&key=AIzaSyBksN0SF4_mvexLxby3u1O8It8WplxbU_w`;
+    `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${ref}&key=${process.env.API_KEY}`;
 
-  const apiURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${types}+in+${zipCode}&key=AIzaSyBksN0SF4_mvexLxby3u1O8It8WplxbU_w`;
-  console.log(apiURL);
+  const apiURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${types}+in+${zipCode}&key=${process.env.API_KEY}`;
+  //console.log(apiURL);
   try {
     const fetchResponse = await fetch(apiURL);
     json = await fetchResponse.json();
