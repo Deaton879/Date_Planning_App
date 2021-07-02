@@ -141,6 +141,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
     });
 };
 
+//This takes a zip code and type of location gets the results form the places api and returns the json
 exports.getGooglePlaces = async (req, res, next) => {
   let json = "";
   let types = req.params.types;
@@ -153,8 +154,6 @@ exports.getGooglePlaces = async (req, res, next) => {
   if ((req.params.zipCode = "")) {
     zipCode = "84302";
   }
-  const image = ({ photo_reference }) =>
-    `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${ref}&key=${process.env.API_KEY}`;
 
   const apiURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${types}+in+${zipCode}&key=${process.env.API_KEY}`;
   //console.log(apiURL);
@@ -168,4 +167,28 @@ exports.getGooglePlaces = async (req, res, next) => {
   }
   //console.log(JSON.stringify(json));
   res.json(json);
+};
+
+//This takes a photo ref and returns the photo path from google photos to be used on website.
+exports.getPlacesPhotos = async (req, res, next) => {
+  let photo_reference = req.params.photo_reference;
+  let myimage =
+    "{image: https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png}";
+
+  //if values are empty set them to a default value
+  if (req.params.photo_reference == "") {
+    return res.json(myimage);
+  }
+  const imageURL = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo_reference}&key=${process.env.API_KEY}`;
+
+  try {
+    const photoresponse = await fetch(imageURL);
+    myimage = await photoresponse;
+    console.log(photoresponse.url);
+  } catch (err) {
+    console.log(err);
+    throw error;
+  }
+
+  res.json(`${myimage.url}`);
 };

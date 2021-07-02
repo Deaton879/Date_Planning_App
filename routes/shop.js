@@ -22,4 +22,6 @@ router.post("/cart-delete-item", isAuth, shopController.postCartDeleteProduct);
 router.get("/getGooglePlaces", shopController.getGooglePlaces);
 router.get("/getGooglePlaces/:zipCode/:types", shopController.getGooglePlaces);
 
+router.get("/getPlacesPhotos", shopController.getPlacesPhotos);
+router.get("/getPlacesPhotos/:photo_reference", shopController.getPlacesPhotos);
 module.exports = router;
