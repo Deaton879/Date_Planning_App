@@ -11,6 +11,7 @@ const App = async (zipCode, types = "park+museum+food") => {
   } catch (error) {
     console.log("Something went wrong" + error);
   }
+
 };
 
 //Creates path to photos
@@ -20,6 +21,7 @@ const getPhotos = async (photo_reference) => {
     //reaches out to local api to return
     const response = await fetch(photoURL);
     const json = await response.json();
+    return json;
   } catch (err) {
     console.log(err);
   }

@@ -100,7 +100,7 @@ exports.getCart = (req, res, next) => {
       res.render("shop/cart", {
         path: "/cart",
         pageTitle: "Your Cart",
-        products: products,
+        products: products
       });
     })
     .catch((err) => {
@@ -184,7 +184,7 @@ exports.getPlacesPhotos = async (req, res, next) => {
   try {
     const photoresponse = await fetch(imageURL);
     myimage = await photoresponse;
-    console.log(photoresponse.url);
+    console.log(myimage.url);
   } catch (err) {
     console.log(err);
     throw error;
