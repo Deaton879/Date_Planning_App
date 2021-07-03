@@ -2,7 +2,7 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const fetch = require("node-fetch");
-
+const request = require('request');
 const PDFDocument = require("pdfkit");
 
 const Product = require("../models/product");
@@ -43,20 +43,49 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getProduct = (req, res, next) => {
-  const prodId = req.params.productId;
-  Product.findById(prodId)
-    .then((product) => {
-      res.render("shop/product-detail", {
-        product: product,
-        pageTitle: product.title,
-        path: "/products",
-      });
-    })
-    .catch((err) => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+  let placeId = req.params.place_id
+  let imageUrl = req.params.image;
+  console.log('req.params.place_id:', placeId);
+  console.log('req.params.imageUrl:', imageUrl);
+  request(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyBksN0SF4_mvexLxby3u1O8It8WplxbU_w`,
+    function (error, response, body) {
+      if (!error && response.statusCode === 200) {
+        let parsedBody = JSON.parse(body);
+        console.log('parsedBody', parsedBody);
+        let result = parsedBody.result;
+        let phoneNo = result?.formatted_phone_number || '';
+        let name = result?.name || '';
+        let rating = result?.rating || '';
+        let types = result?.types || [];
+        console.log('result:', result);
+
+        res.render("shop/product-detail", {
+          path: "/product",
+          pageTitle: "Your Cart",
+          products: [],
+          product: {
+            name: name,
+            phone: phoneNo,
+            photo: result?.photos[0]?.html_attributions[0] || '',
+            imageUrl: imageUrl
+          }
+        });
+      }
     });
+
+  // console.log('req.params', req.params);
+  // const prodId = req.params.productId;
+
+  // res.render("shop/product-detail", {
+  //   path: "/product",
+  //   pageTitle: "Your Cart",
+  //   products: [],
+  //   product: {
+  //     name: 0,
+  //     description: ''
+  //   }
+  // });
+
 };
 
 exports.getIndex = (req, res, next) => {
@@ -184,7 +213,7 @@ exports.getPlacesPhotos = async (req, res, next) => {
   try {
     const photoresponse = await fetch(imageURL);
     myimage = await photoresponse;
-    console.log(myimage.url);
+    // console.log(myimage.url);
   } catch (err) {
     console.log(err);
     throw error;

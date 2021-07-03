@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 5000 // So we can run on heroku || (OR) localho
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
+const request = require('request');
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
@@ -33,7 +34,7 @@ const fileStorage = multer.diskStorage({
     cb(null, new Date().toISOString() + '-' + file.originalname);
   }
 });
-  
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === 'image/png' ||

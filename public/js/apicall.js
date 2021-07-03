@@ -6,6 +6,7 @@ const App = async (zipCode, types = "park+museum+food") => {
     const response = await fetch(apiURL);
     const json = await response.json();
     json.results.forEach((element) => {
+      console.log('element', element);
       addPlaceToHTML(element);
     });
   } catch (error) {
@@ -17,6 +18,7 @@ const App = async (zipCode, types = "park+museum+food") => {
 //Creates path to photos
 const getPhotos = async (photo_reference) => {
   const photoURL = `/getPlacesPhotos/${photo_reference}`;
+  console.log('photoURL', photoURL);
   try {
     //reaches out to local api to return
     const response = await fetch(photoURL);
@@ -50,8 +52,22 @@ const addPlaceToHTML = async (element) => {
   myPlaces.append(stringToHTML(place));
 };
 
-const obj = ({ name, open_now }, image) =>
-  `<div class="grid">
+const obj = ({
+  place_id,
+  name,
+  formatted_address,
+  rating,
+  open_now
+}, image) => {
+
+  console.log('image:', image);
+  let urls = image.replace('https://lh3.googleusercontent.com/p/', '');
+  let url2 = urls.replace('=s1600-w400', '');
+
+  console.log('url', url2);
+
+  return (
+    `<div class="grid">
         <article class="card product-item">
             <header class="card__header">
                 <h1 class="product__title">${name}</h1>
@@ -67,10 +83,13 @@ const obj = ({ name, open_now }, image) =>
                     </p>
             </div>
             <div class="card__actions">
-                <a href="" class="btn">Details</a>
+                <a href="/product-detail/${place_id}/${url2}" class="btn">Details</a>
             </div>
         </article>
-    </div>`;
+    </div>`
+  );
+
+}
 
 //we should add get current location with this one.
 //Change this to change the city we are working with.

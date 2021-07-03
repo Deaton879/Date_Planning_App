@@ -1,4 +1,5 @@
 <%- include('../includes/head.ejs') %>
+<script src="js/apicall.js"></script>
     </head>
 
     <body>
@@ -7,10 +8,12 @@
             <h1><%= product.title %></h1>
             <hr>
             <div class="image">
-                <img src="/<%= product.imageUrl %>" alt="<%= product.title %>">
+                <img src="https://lh3.googleusercontent.com/p/<%= product.imageUrl %>=s1600-w400" alt="<%= product.title %>">
             </div>
-            <h2><%= product.price %></h2>
-            <p><%= product.description %></p>
+            <h2><%= product.name %></h2>
+            <p><%= product.phone %></p>
+
+            <button id='btnAddToFavorites'>Add to Favorites</button>
             <% if (isAuthenticated) { %>
                 <%- include('../includes/add-to-cart.ejs', {product: product}) %>
             <% } %>
