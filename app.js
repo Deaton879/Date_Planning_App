@@ -1,5 +1,3 @@
-// Comment added by Alex for testing commits
-// New comment added by Alex for pushing to Heroku
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
