@@ -2,62 +2,49 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const fetch = require("node-fetch");
-const request = require('request');
+const request = require("request");
 const PDFDocument = require("pdfkit");
 
 const Product = require("../models/product");
 const Order = require("../models/order");
 
-const ITEMS_PER_PAGE = 2;
-
 exports.getProducts = (req, res, next) => {
-  const page = +req.query.page || 1;
-  let totalItems;
+  res.render("shop/product-list", {
+    pageTitle: "Places",
+    path: "/places",
+    zipCode: "",
+    type: "",
+  });
+};
 
-  Product.find()
-    .countDocuments()
-    .then((numProducts) => {
-      totalItems = numProducts;
-      return Product.find()
-        .skip((page - 1) * ITEMS_PER_PAGE)
-        .limit(ITEMS_PER_PAGE);
-    })
-    .then((products) => {
-      res.render("shop/product-list", {
-        prods: products,
-        pageTitle: "Products",
-        path: "/products",
-        currentPage: page,
-        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
-        hasPreviousPage: page > 1,
-        nextPage: page + 1,
-        previousPage: page - 1,
-        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
-      });
-    })
-    .catch((err) => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+exports.postProducts = (req, res, next) => {
+  const zipCode = req.body.zipCode;
+  const type = req.body.type;
+  res.render("shop/product-list", {
+    pageTitle: "Places",
+    path: "/places",
+    zipCode: zipCode,
+    type: type,
+  });
 };
 
 exports.getProduct = (req, res, next) => {
-  let placeId = req.params.place_id
+  let placeId = req.params.place_id;
   let imageUrl = req.params.image;
-  console.log('req.params.place_id:', placeId);
-  console.log('req.params.imageUrl:', imageUrl);
-  request(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyBksN0SF4_mvexLxby3u1O8It8WplxbU_w`,
+  console.log("req.params.place_id:", placeId);
+  console.log("req.params.imageUrl:", imageUrl);
+  request(
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyBksN0SF4_mvexLxby3u1O8It8WplxbU_w`,
     function (error, response, body) {
       if (!error && response.statusCode === 200) {
         let parsedBody = JSON.parse(body);
-        console.log('parsedBody', parsedBody);
+        console.log("parsedBody", parsedBody);
         let result = parsedBody.result;
-        let phoneNo = result?.formatted_phone_number || '';
-        let name = result?.name || '';
-        let rating = result?.rating || '';
+        let phoneNo = result?.formatted_phone_number || "";
+        let name = result?.name || "";
+        let rating = result?.rating || "";
         let types = result?.types || [];
-        console.log('result:', result);
+        console.log("result:", result);
 
         res.render("shop/product-detail", {
           path: "/product",
@@ -66,58 +53,20 @@ exports.getProduct = (req, res, next) => {
           product: {
             name: name,
             phone: phoneNo,
-            photo: result?.photos[0]?.html_attributions[0] || '',
-            imageUrl: imageUrl
-          }
+            photo: result?.photos[0]?.html_attributions[0] || "",
+            imageUrl: imageUrl,
+          },
         });
       }
-    });
-
-  // console.log('req.params', req.params);
-  // const prodId = req.params.productId;
-
-  // res.render("shop/product-detail", {
-  //   path: "/product",
-  //   pageTitle: "Your Cart",
-  //   products: [],
-  //   product: {
-  //     name: 0,
-  //     description: ''
-  //   }
-  // });
-
+    }
+  );
 };
 
 exports.getIndex = (req, res, next) => {
-  const page = +req.query.page || 1;
-  let totalItems;
-
-  Product.find()
-    .countDocuments()
-    .then((numProducts) => {
-      totalItems = numProducts;
-      return Product.find()
-        .skip((page - 1) * ITEMS_PER_PAGE)
-        .limit(ITEMS_PER_PAGE);
-    })
-    .then((products) => {
-      res.render("shop/index", {
-        prods: products,
-        pageTitle: "Shop",
-        path: "/",
-        currentPage: page,
-        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
-        hasPreviousPage: page > 1,
-        nextPage: page + 1,
-        previousPage: page - 1,
-        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
-      });
-    })
-    .catch((err) => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+  res.render("shop/index", {
+    pageTitle: "Home",
+    path: "/",
+  });
 };
 
 exports.getCart = (req, res, next) => {
@@ -129,7 +78,7 @@ exports.getCart = (req, res, next) => {
       res.render("shop/cart", {
         path: "/cart",
         pageTitle: "Your Cart",
-        products: products
+        products: products,
       });
     })
     .catch((err) => {
@@ -175,17 +124,18 @@ exports.getGooglePlaces = async (req, res, next) => {
   let json = "";
   let types = req.params.types;
   let zipCode = req.params.zipCode;
+  console.log(types, zipCode);
 
   //if values are empty set them to a default value
   if (req.params.types != "") {
     types = "restraunt+museum+park";
   }
   if ((req.params.zipCode = "")) {
-    zipCode = "84302";
+    zipCode = "20001";
   }
 
   const apiURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${types}+in+${zipCode}&key=${process.env.API_KEY}`;
-  //console.log(apiURL);
+  console.log(apiURL);
   try {
     const fetchResponse = await fetch(apiURL);
     json = await fetchResponse.json();

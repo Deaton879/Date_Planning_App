@@ -1,12 +1,20 @@
 <%- include('../includes/head.ejs') %>
-<script src="js/apicall.js"></script>
+
     <link rel="stylesheet" href="/css/product.css">
     </head>
-
-    <body>
         <%- include('../includes/navigation.ejs') %>
-
+        <div class="place-Selector">
+        <input type="text" id="zipCode" value=<%= zipCode %> >
+        <select name="type" id="type" value="">
+            <option value="restaurants" <%= type === 'restaurant' ? 'selected' : '' %> >Restaurant</option>
+            <option value="park" <%= type === 'park' ? 'selected' : '' %>>Park</option>
+            <option value="museum" <%= type === 'museum' ? 'selected' : '' %>>Museum</option>
+          </select>
+          <a class="btn" id="reload" href="">Find Places</a>
+        </div>
+         
             <main id="main">
 
             </main>
+            <script src="js/apicall.js"></script>
             <%- include('../includes/end.ejs') %>

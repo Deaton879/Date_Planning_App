@@ -13,9 +13,9 @@
             <h2><%= product.name %></h2>
             <p><%= product.phone %></p>
 
-            
+            <button id='btnAddToFavorites' class="fav-button btn">Add to Favorites</button>
             <% if (isAuthenticated) { %>
-                <button id='btnAddToFavorites' class="fav-button btn">Add to Favorites</button>
+                <%- include('../includes/add-to-cart.ejs', {product: product}) %>
             <% } %>
         </main>
         <%- include('../includes/end.ejs') %>

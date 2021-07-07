@@ -6,6 +6,15 @@
     <%- include('../includes/navigation.ejs') %>
 
     <main>
-Test
+        <form action="/places" method="POST">
+            <input type="text" id="zipCode" name="zipCode">
+            <select name="type" id="type">
+                <option value="restaurants">Restaurants</option>
+                <option value="park">Park</option>
+                <option value="museum">Museum</option>
+              </select>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button class="btn" type="submit">Find Places</button>
+        </form>
     </main>
 <%- include('../includes/end.ejs') %>

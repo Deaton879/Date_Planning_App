@@ -1,4 +1,11 @@
-const App = async (zipCode, types = "park+museum+food") => {
+//const { mapFinderOptions } = require("sequelize/types/lib/utils");
+
+const App = async () => {
+  zipCode = document.getElementById("zipCode").value;
+  if (zipCode == "") {
+    zipCode = 20001;
+  }
+  types = document.getElementById("type").value;
   const apiURL = `/getGooglePlaces/${zipCode}/${types}`;
   let count = 1;
 
@@ -53,7 +60,7 @@ const addPlaceToHTML = async (element, id) => {
 };
 
 const obj = (
-  { place_id, name, formatted_address, rating, open_now },
+  { place_id, name, formatted_address, rating, open_now, types },
   image,
   id
 ) => {
@@ -73,7 +80,7 @@ const obj = (
             </div>
             <div class="card__content">
                 <h2 class="product__price">$
-                        //maybe something
+                        ${types}
                 </h2>
                     <p class="product__description">
                     </p>
@@ -87,4 +94,16 @@ const obj = (
 };
 //we should add get current location with this one.
 //Change this to change the city we are working with.
-App(84321);
+const loadPlaces = () => {
+  document.getElementById("main").innerHTML = "";
+  App();
+};
+
+loadPlaces();
+
+//Watches for changes
+document.getElementById("reload").addEventListener("click", loadPlaces);
+function btnclick(e) {
+  // comment and uncomment e.preventDefault to see the differences
+  e.preventDefault();
+}
