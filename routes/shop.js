@@ -9,7 +9,8 @@ const router = express.Router();
 
 router.get("/", shopController.getIndex);
 
-router.get("/products", shopController.getProducts);
+router.get("/places", shopController.getProducts);
+router.get("/places/:zipCode/:types", shopController.getProducts);
 
 router.get("/product-detail", shopController.getProduct);
 router.get("/product-detail/:place_id/:image", shopController.getProduct);

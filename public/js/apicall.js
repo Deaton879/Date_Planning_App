@@ -1,24 +1,23 @@
 const App = async (zipCode, types = "park+museum+food") => {
   const apiURL = `/getGooglePlaces/${zipCode}/${types}`;
+  let count = 1;
 
   try {
     //reaches out to local api to return
     const response = await fetch(apiURL);
     const json = await response.json();
     json.results.forEach((element) => {
-      console.log('element', element);
-      addPlaceToHTML(element);
+      addPlaceToHTML(element, count);
+      count++;
     });
   } catch (error) {
     console.log("Something went wrong" + error);
   }
-
 };
 
 //Creates path to photos
 const getPhotos = async (photo_reference) => {
   const photoURL = `/getPlacesPhotos/${photo_reference}`;
-  console.log('photoURL', photoURL);
   try {
     //reaches out to local api to return
     const response = await fetch(photoURL);
@@ -36,38 +35,35 @@ var stringToHTML = function (str) {
   return doc.body;
 };
 
-const addPlaceToHTML = async (element) => {
+const addPlaceToHTML = async (element, id) => {
   //get photos image
   const myPlaces = document.getElementById("main");
   let place = null;
   let myimage = "";
   try {
     myimage = await getPhotos(element.photos[0].photo_reference);
+    //console.log(element.photos[0].photo_reference);
   } catch (err) {
     console.log(err);
   }
   //add place to products page
-  place = await obj(element, myimage);
+  place = await obj(element, myimage, id);
   console.log(myPlaces, place);
   myPlaces.append(stringToHTML(place));
 };
 
-const obj = ({
-  place_id,
-  name,
-  formatted_address,
-  rating,
-  open_now
-}, image) => {
+const obj = (
+  { place_id, name, formatted_address, rating, open_now },
+  image,
+  id
+) => {
+  console.log("image:", image);
+  let urls = image.replace("https://lh3.googleusercontent.com/p/", "");
+  let url2 = urls.replace("=s1600-w400", "");
 
-  console.log('image:', image);
-  let urls = image.replace('https://lh3.googleusercontent.com/p/', '');
-  let url2 = urls.replace('=s1600-w400', '');
+  console.log("url", url2);
 
-  console.log('url', url2);
-
-  return (
-    `<div class="grid">
+  return `<div class="grid">
         <article class="card product-item">
             <header class="card__header">
                 <h1 class="product__title">${name}</h1>
@@ -84,13 +80,11 @@ const obj = ({
             </div>
             <div class="card__actions">
                 <a href="/product-detail/${place_id}/${url2}" class="btn">Details</a>
+                <a href="" id="${id}" class="fav-button btn">Add to Favorites</a>
             </div>
         </article>
-    </div>`
-  );
-
-}
-
+    </div>`;
+};
 //we should add get current location with this one.
 //Change this to change the city we are working with.
 App(84321);
