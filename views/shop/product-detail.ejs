@@ -5,12 +5,16 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main class="centered">
+            <header class="secondary-header">
+                <h1><%= product.name %></h1>
+            </header>
             <h1><%= product.title %></h1>
             <hr>
             <div class="image">
                 <img src="https://lh3.googleusercontent.com/p/<%= product.imageUrl %>=s1600-w400" alt="<%= product.title %>">
             </div>
-            <h2><%= product.name %></h2>
+            <p>Average User Rating - <%= product.rating %></p>
+            <p><%= product.address %></p>
             <p><%= product.phone %></p>
 
             <button id='btnAddToFavorites' class="fav-button btn">Add to Favorites</button>

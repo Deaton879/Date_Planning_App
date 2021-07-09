@@ -65,15 +65,15 @@ const obj = (
   return `<div class="grid">
         <article class="card product-item">
             <header class="card__header">
-                <h1 class="product__title">${name}</h1>
+                <h2 class="product__title">${name}</h2>
             </header>
             <div class="card__image">
                 <img src=${image} alt="image of ${name}">
             </div>
             <div class="card__content">
-                <h2 class="product__price">
+                <p class="product__price">
                         ${types[0]}
-                </h2>
+                </p>
                     <p class="product__description">
                     </p>
             </div>

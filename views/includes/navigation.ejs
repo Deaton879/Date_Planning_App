@@ -2,29 +2,29 @@
 <header class="main-header">
     <button id="side-menu-toggle">Menu</button>
     <nav class="main-header__nav">
-        <ul class="main-header__item-list">
-            <li class="main-header__item">
+        <ul class="item-list">
+            <li class="item">
                 <a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
             </li>
-            <li class="main-header__item">
+            <li class="item">
                 <a class="<%= path === '/places' ? 'active' : '' %>" href="/places">Places</a>
             </li>
             <% if (isAuthenticated) { %>
-                <li class="main-header__item">
+                <li class="item">
                     <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Favorites</a>
                 </li>
             <% } %>
         </ul>
-        <ul class="main-header__item-list">
+        <ul class="item-list">
             <% if (!isAuthenticated) { %>
-                <li class="main-header__item">
+                <li class="item">
                     <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
                 </li>
-                <li class="main-header__item">
+                <li class="item">
                     <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
                 </li>
             <% } else { %>
-                <li class="main-header__item">
+                <li class="item">
                     <form action="/logout" method="post">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit">Logout</button>
@@ -36,27 +36,27 @@
 </header>
 
 <nav class="mobile-nav">
-    <ul class="mobile-nav__item-list">
-        <li class="mobile-nav__item">
+    <ul class="item-list">
+        <li class="item">
             <a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
         </li>
-        <li class="mobile-nav__item">
+        <li class="item">
             <a class="<%= path === '/places' ? 'active' : '' %>" href="/places">Places</a>
         </li>
         <% if (isAuthenticated) { %>
-            <li class="mobile-nav__item">
+            <li class="item">
                 <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Favorites</a>
             </li>
         <% } %>
         <% if (!isAuthenticated) { %>
-            <li class="mobile-nav__item">
+            <li class="item">
                 <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
             </li>
-            <li class="mobile-nav__item">
+            <li class="item">
                 <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
             </li>
         <% } else { %>
-            <li class="mobile-nav__item">
+            <li class="item">
                 <form action="/logout" method="post">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit">Logout</button>

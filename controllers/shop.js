@@ -14,25 +14,30 @@ exports.getProducts = (req, res, next) => {
     path: "/places",
     zipCode: "",
     type: "",
+    address: "",
   });
 };
 
 exports.postProducts = (req, res, next) => {
   const zipCode = req.body.zipCode;
   const type = req.body.type;
+  const address = req.body.address;
+  const rating = req.body.rating;
   res.render("shop/product-list", {
     pageTitle: "Places",
     path: "/places",
     zipCode: zipCode,
     type: type,
+    address: address,
+    rating: rating,
   });
 };
 
 exports.getProduct = (req, res, next) => {
   let placeId = req.params.place_id;
   let imageUrl = req.params.image;
-  console.log("req.params.place_id:", placeId);
-  console.log("req.params.imageUrl:", imageUrl);
+  //console.log("req.params.place_id:", placeId);
+  //console.log("req.params.imageUrl:", imageUrl);
   request(
     `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=AIzaSyBksN0SF4_mvexLxby3u1O8It8WplxbU_w`,
     function (error, response, body) {
@@ -41,6 +46,7 @@ exports.getProduct = (req, res, next) => {
         console.log("parsedBody", parsedBody);
         let result = parsedBody.result;
         let phoneNo = result?.formatted_phone_number || "";
+        let address = result?.formatted_address || "";
         let name = result?.name || "";
         let rating = result?.rating || "";
         let type = result?.type || [];
@@ -55,6 +61,9 @@ exports.getProduct = (req, res, next) => {
             phone: phoneNo,
             photo: result?.photos[0]?.html_attributions[0] || "",
             imageUrl: imageUrl,
+            rating: rating,
+            type: type,
+            address: address
           },
         });
       }
@@ -124,7 +133,7 @@ exports.getGooglePlaces = async (req, res, next) => {
   let json = "";
   let type = req.params.type;
   let zipCode = req.params.zipCode;
-  console.log(type, zipCode);
+  //console.log(type, zipCode);
 
   //if values are empty set them to a default value
   if (type == "") {

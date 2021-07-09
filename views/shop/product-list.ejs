@@ -1,20 +1,28 @@
 <%- include('../includes/head.ejs') %>
-
-    <link rel="stylesheet" href="/css/product.css">
     </head>
         <%- include('../includes/navigation.ejs') %>
-        <div class="place-Selector">
-        <input type="text" id="zipCode" value=<%= zipCode %> >
-        <select name="type" id="type" value="">
-            <option value="restaurants" <%= type === 'restaurant' ? 'selected' : '' %> >Restaurant</option>
-            <option value="park" <%= type === 'park' ? 'selected' : '' %>>Park</option>
-            <option value="museum" <%= type === 'museum' ? 'selected' : '' %>>Museum</option>
-          </select>
-          <button class="btn" id="reload" >Find Places</button>
-        </div>
+        
          
-            <main id="main">
-
+            <main id="main" class="centered">
+              <header class="secondary-header">
+                <h1>Results <%= zipCode %></h1>
+                <p>"<%= type %>"</p>
+              </header><br>
+              <hr>
+              <div class="place-Selector">
+                <div class="form">
+                  <label for="zipCode">Enter Zipcode</label>
+                  <input type="text" id="zipCode" value=<%= zipCode %>><br>
+                  <label for="type">Select Cateory</label>
+                  <select name="type" id="type" title="Categories">
+                    <option value="restaurants" <%= type === 'restaurant' ? 'selected' : '' %> >Restaurant</option>
+                    <option value="park" <%= type === 'park' ? 'selected' : '' %>>Park</option>
+                    <option value="museum" <%= type === 'museum' ? 'selected' : '' %>>Museum</option>
+                  </select><br>
+                  <button class="btn" id="reload" >Find Places</button>
+                </div>
+              </div>
+              <br><hr>
             </main>
             <script src="js/apicall.js"></script>
             <%- include('../includes/end.ejs') %>

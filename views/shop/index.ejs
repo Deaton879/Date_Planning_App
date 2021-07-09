@@ -1,20 +1,29 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/product.css">
 </head>
 
 <body>
     <%- include('../includes/navigation.ejs') %>
 
-    <main>
-        <form action="/places" method="POST">
-            <input type="text" id="zipCode" name="zipCode">
-            <select name="type" id="type">
-                <option value="restaurants">Restaurants</option>
-                <option value="park">Park</option>
-                <option value="museum">Museum</option>
-              </select>
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button class="btn" type="submit">Find Places</button>
-        </form>
+    <main class="centered">
+        <header class="secondary-header">
+            <h1>Search Places</h1>
+            <p>Select a category and search by zipcode.</p>
+        </header>
+        <hr>
+        <div class="place-Selector">
+            <form action="/places" method="POST">
+                <label for="zipCode">Enter Zipcode</label>
+                <input type="text" id="zipCode" name="zipCode" required><br>
+                <label for="type">Select Category</label>
+                <select name="type" id="type" title="Categories" required>
+                    <option value="restaurants">Restaurants</option>
+                    <option value="park">Park</option>
+                    <option value="museum">Museum</option>
+                </select>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>"><br>
+                <button class="btn" type="submit">Find Places</button>       
+            </form>
+
+        </div>
     </main>
 <%- include('../includes/end.ejs') %>
