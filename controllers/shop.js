@@ -43,7 +43,7 @@ exports.getProduct = (req, res, next) => {
         let phoneNo = result?.formatted_phone_number || "";
         let name = result?.name || "";
         let rating = result?.rating || "";
-        let types = result?.types || [];
+        let type = result?.type || [];
         console.log("result:", result);
 
         res.render("shop/product-detail", {
@@ -122,19 +122,19 @@ exports.postCartDeleteProduct = (req, res, next) => {
 //This takes a zip code and type of location gets the results form the places api and returns the json
 exports.getGooglePlaces = async (req, res, next) => {
   let json = "";
-  let types = req.params.types;
+  let type = req.params.type;
   let zipCode = req.params.zipCode;
-  console.log(types, zipCode);
+  console.log(type, zipCode);
 
   //if values are empty set them to a default value
-  if (req.params.types != "") {
-    types = "restraunt+museum+park";
+  if (type == "") {
+    type = "restraunt+museum+park";
   }
-  if ((req.params.zipCode = "")) {
+  if (zipCode == "") {
     zipCode = "20001";
   }
 
-  const apiURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${types}+in+${zipCode}&key=${process.env.API_KEY}`;
+  const apiURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${type}+in+${zipCode}&key=${process.env.API_KEY}`;
   console.log(apiURL);
   try {
     const fetchResponse = await fetch(apiURL);

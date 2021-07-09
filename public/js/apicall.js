@@ -1,18 +1,18 @@
-//const { mapFinderOptions } = require("sequelize/types/lib/utils");
-
-const App = async () => {
+const app = async () => {
   zipCode = document.getElementById("zipCode").value;
   if (zipCode == "") {
     zipCode = 20001;
   }
-  types = document.getElementById("type").value;
-  const apiURL = `/getGooglePlaces/${zipCode}/${types}`;
+  type = document.getElementById("type").value;
+  const apiURL = `/getGooglePlaces/${zipCode}/${type}`;
   let count = 1;
+  console.log(apiURL);
 
   try {
     //reaches out to local api to return
     const response = await fetch(apiURL);
     const json = await response.json();
+    console.log(json);
     json.results.forEach((element) => {
       addPlaceToHTML(element, count);
       count++;
@@ -35,13 +35,6 @@ const getPhotos = async (photo_reference) => {
   }
 };
 
-//converts the string to HTML for site to display
-var stringToHTML = function (str) {
-  var parser = new DOMParser();
-  var doc = parser.parseFromString(str, "text/html");
-  return doc.body;
-};
-
 const addPlaceToHTML = async (element, id) => {
   //get photos image
   const myPlaces = document.getElementById("main");
@@ -55,7 +48,7 @@ const addPlaceToHTML = async (element, id) => {
   }
   //add place to products page
   place = await obj(element, myimage, id);
-  console.log(myPlaces, place);
+  //console.log(myPlaces, place);
   myPlaces.append(stringToHTML(place));
 };
 
@@ -64,12 +57,11 @@ const obj = (
   image,
   id
 ) => {
-  console.log("image:", image);
+  //console.log("image:", image);
   let urls = image.replace("https://lh3.googleusercontent.com/p/", "");
   let url2 = urls.replace("=s1600-w400", "");
 
-  console.log("url", url2);
-
+  //console.log("url", url2);
   return `<div class="grid">
         <article class="card product-item">
             <header class="card__header">
@@ -79,8 +71,8 @@ const obj = (
                 <img src=${image} alt="image of ${name}">
             </div>
             <div class="card__content">
-                <h2 class="product__price">$
-                        ${types}
+                <h2 class="product__price">
+                        ${types[0]}
                 </h2>
                     <p class="product__description">
                     </p>
@@ -92,18 +84,25 @@ const obj = (
         </article>
     </div>`;
 };
+
+//converts the string to HTML for site to display
+var stringToHTML = function (str) {
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(str, "text/html");
+  return doc.body;
+};
+
 //we should add get current location with this one.
 //Change this to change the city we are working with.
 const loadPlaces = () => {
   document.getElementById("main").innerHTML = "";
-  App();
+  app();
 };
 
-loadPlaces();
+//After document loads get data should only load on first run home -> places.
+window.onload = function () {
+  app();
+};
 
 //Watches for changes
 document.getElementById("reload").addEventListener("click", loadPlaces);
-function btnclick(e) {
-  // comment and uncomment e.preventDefault to see the differences
-  e.preventDefault();
-}
