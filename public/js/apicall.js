@@ -41,7 +41,12 @@ const addPlaceToHTML = async (element, id) => {
   let place = null;
   let myimage = "";
   try {
-    myimage = await getPhotos(element.photos[0].photo_reference);
+    if (!element.photos[0].photo_reference) {
+      myimage =
+        "https://www.google.com/search?q=no+photo+image&client=safari&rls=en&tbm=isch&source=iu&ictx=1&fir=-QpL1I7u3zbiBM%252C029W-ajBtZqZzM%252C_&vet=1&usg=AI4_-kQ8QReliwzHObPiVc85vwlorLM91Q&sa=X&ved=2ahUKEwiMyuOpy9fxAhXVpZ4KHdlUD7YQ9QF6BAgIEAE#imgrc=-QpL1I7u3zbiBM";
+    } else {
+      myimage = await getPhotos(element.photos[0].photo_reference);
+    }
     //console.log(element.photos[0].photo_reference);
   } catch (err) {
     console.log(err);
@@ -105,4 +110,7 @@ window.onload = function () {
 };
 
 //Watches for changes
-document.getElementById("reload").addEventListener("click", loadPlaces);
+document.getElementById("reload").addEventListener("click", function (event) {
+  event.preventDefault();
+  loadPlaces();
+});

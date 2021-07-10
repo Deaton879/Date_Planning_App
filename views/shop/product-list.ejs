@@ -3,7 +3,7 @@
         <%- include('../includes/navigation.ejs') %>
         
          
-            <main id="main" class="centered">
+            <main class="centered">
               <header class="secondary-header">
                 <h1>Results <%= zipCode %></h1>
                 <p>"<%= type %>"</p>
@@ -19,10 +19,13 @@
                     <option value="park" <%= type === 'park' ? 'selected' : '' %>>Park</option>
                     <option value="museum" <%= type === 'museum' ? 'selected' : '' %>>Museum</option>
                   </select><br>
-                  <button class="btn" id="reload" >Find Places</button>
+                  <button class="btn" id="reload">Find Places</button>
                 </div>
               </div>
               <br><hr>
+              <div id="main">
+                  
+              </div> 
             </main>
             <script src="js/apicall.js"></script>
             <%- include('../includes/end.ejs') %>
