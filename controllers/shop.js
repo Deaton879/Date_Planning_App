@@ -18,6 +18,22 @@ exports.getProducts = (req, res, next) => {
   });
 };
 
+exports.postAddToFavorites = (req, res, next) => {
+  console.log('fine');
+  const zipCode = req.body.zipCode;
+  const type = req.body.type;
+  const address = req.body.address;
+  const rating = req.body.rating;
+  // res.render("shop/product-list", {
+  //   pageTitle: "Places",
+  //   path: "/places",
+  //   zipCode: zipCode,
+  //   type: type,
+  //   address: address,
+  //   rating: rating,
+  // });
+};
+
 exports.postProducts = (req, res, next) => {
   const zipCode = req.body.zipCode;
   const type = req.body.type;

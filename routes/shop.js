@@ -7,6 +7,7 @@ const isAuth = require("../middleware/is-auth");
 
 const router = express.Router();
 
+router.post("/add-to-favorites", shopController.postAddToFavorites);
 router.get("/", shopController.getIndex);
 router.get("/", shopController.postProducts);
 

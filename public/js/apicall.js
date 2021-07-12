@@ -54,8 +54,18 @@ const addPlaceToHTML = async (element, id) => {
   //add place to products page
   place = await obj(element, myimage, id);
   //console.log(myPlaces, place);
-  myPlaces.append(stringToHTML(place));
+  // myPlaces.append(stringToHTML(place));
 };
+
+const testFunc = (event) => {
+  fetch('/add-to-favorites', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({
+      id: 1
+    })
+  });
+}
 
 const obj = (
   { place_id, name, formatted_address, rating, open_now, types },
@@ -66,28 +76,91 @@ const obj = (
   let urls = image.replace("https://lh3.googleusercontent.com/p/", "");
   let url2 = urls.replace("=s1600-w400", "");
 
+  const gridDiv = document.createElement('div');
+  gridDiv.class = 'grid';
+
+  const article = document.createElement('article');
+  article.class = 'card product-item';
+
+  const header = document.createElement('header');
+  header.class = 'card__header';
+
+  const productTitle = document.createElement('h2');
+  productTitle.class = 'product__title';
+  productTitle.innerHTML = name;
+
+  header.appendChild(productTitle);
+  article.appendChild(header);
+
+  const cardImageDiv = document.createElement('div');
+  cardImageDiv.class = 'card__image';
+
+  const cardImage = document.createElement('img');
+  cardImage.src = image;
+  cardImage.alt = `Image of ${name}`;
+
+  cardImageDiv.appendChild(cardImage);
+  article.appendChild(cardImageDiv);
+
+  const cardContent = document.createElement('div');
+  cardContent.class = 'card__content';
+
+  const productPrice = document.createElement('p');
+  productPrice.class = 'product__price';
+
+  const productDesc = document.createElement('p');
+  productDesc.class = 'product__description';
+
+  cardContent.appendChild(productPrice);
+  cardContent.appendChild(productDesc);
+  article.appendChild(cardContent);
+
+  const cardActions = document.createElement('div');
+  cardActions.class = 'card__actions';
+
+  const productDetailsLink = document.createElement('a');
+  productDetailsLink.href = `/product-detail/${place_id}/${url2}`;
+  productDetailsLink.class = 'btn';
+  productDetailsLink.innerHTML = 'Details';
+
+  //  const btnAddToFavorites = document.createElement('button');
+  const btnAddToFavorites = document.createElement('button');
+  btnAddToFavorites.id = id;
+  btnAddToFavorites.class = 'fav-button btn';
+  btnAddToFavorites.addEventListener('click', testFunc);
+  btnAddToFavorites.innerHTML = 'Add to Favorites';
+
+  cardActions.appendChild(productDetailsLink);
+  cardActions.appendChild(btnAddToFavorites);
+  article.appendChild(cardActions);
+
+  gridDiv.appendChild(article);
+
+  document.getElementById('main').appendChild(gridDiv);
+  // return gridDiv;
+
   //console.log("url", url2);
-  return `<div class="grid">
-        <article class="card product-item">
-            <header class="card__header">
-                <h2 class="product__title">${name}</h2>
-            </header>
-            <div class="card__image">
-                <img src=${image} alt="image of ${name}">
-            </div>
-            <div class="card__content">
-                <p class="product__price">
-                        ${types[0]}
-                </p>
-                    <p class="product__description">
-                    </p>
-            </div>
-            <div class="card__actions">
-                <a href="/product-detail/${place_id}/${url2}" class="btn">Details</a>
-                <a href="" id="${id}" class="fav-button btn">Add to Favorites</a>
-            </div>
-        </article>
-    </div>`;
+  // return `<div class="grid">
+  //       <article class="card product-item">
+  //           <header class="card__header">
+  //               <h2 class="product__title">${name}</h2>
+  //           </header>
+  //           <div class="card__image">
+  //               <img src=${image} alt="image of ${name}">
+  //           </div>
+  //           <div class="card__content">
+  //               <p class="product__price">
+  //                       ${types[0]}
+  //               </p>
+  //                   <p class="product__description">
+  //                   </p>
+  //           </div>
+  //           <div class="card__actions">
+  //               <a href="/product-detail/${place_id}/${url2}" class="btn">Details</a>
+  //               ` + btnAddToFavorites + `
+  //           </div>
+  //       </article>
+  //   </div>`;
 };
 
 //converts the string to HTML for site to display
