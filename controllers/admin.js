@@ -135,7 +135,7 @@ exports.getProducts = (req, res, next) => {
       res.render("admin/products", {
         prods: products,
         pageTitle: "Favorites",
-        path: "/products",
+        path: "/admin/products",
       });
     })
     .catch((err) => {
