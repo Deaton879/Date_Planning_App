@@ -217,7 +217,7 @@ body main .grid .card .card__header h1, body main .grid .product-item .card__hea
 }
 
 body main .grid .card .card__header .product__title, body main .grid .product-item .card__header .product__title {
-  font-size: 1.2rem;
+  font-size: 2.2rem;
   text-align: center;
 }
 
@@ -225,7 +225,7 @@ body main .grid .card .card__image, body main .grid .product-item .card__image {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  height: 10rem;
+  height: 15rem;
   text-align: center;
   background-color: #3C6E71;
   padding: .5rem .5rem 1.5rem .5rem;
@@ -249,7 +249,7 @@ body main .grid .card .card__content h1, body main .grid .card .card__content h2
   margin: 0;
 }
 
-body main .grid .card .card__content .product__price, body main .grid .product-item .card__content .product__price {
+body main .grid .card .card__content .product__rating, body main .grid .product-item .card__content .product__rating {
   text-align: center;
   color: #353535;
   margin-bottom: 0.5rem;

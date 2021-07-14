@@ -4,7 +4,7 @@
             <main class="centered">
               <header class="secondary-header">
                 <h1>Results <%= zipCode %></h1>
-                <p>"<%= type %>"</p>
+                <p><%= type %></p>
               </header><br>
               <hr>
               <div class="place-Selector">
@@ -26,4 +26,10 @@
               </div> 
             </main>
             <script src="js/apicall.js"></script>
+            <script>
+              function saveId(id) {
+                console.log(id);
+                localStorage.setItem('passedId', id)
+              }
+            </script>
             <%- include('../includes/end.ejs') %>

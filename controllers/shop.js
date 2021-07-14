@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 const request = require("request");
 const PDFDocument = require("pdfkit");
 
+
 const Product = require("../models/product");
 const Order = require("../models/order");
 
@@ -19,7 +20,7 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.postAddToFavorites = (req, res, next) => {
-  console.log('fine');
+  console.log("fine");
   const zipCode = req.body.zipCode;
   const type = req.body.type;
   const address = req.body.address;
@@ -52,6 +53,7 @@ exports.postProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   let placeId = req.params.place_id;
   let imageUrl = req.params.image;
+  let passedId = `/product-detail/${placeId}/${imageUrl}`;
   //console.log("req.params.place_id:", placeId);
   //console.log("req.params.imageUrl:", imageUrl);
   request(
@@ -59,18 +61,17 @@ exports.getProduct = (req, res, next) => {
     function (error, response, body) {
       if (!error && response.statusCode === 200) {
         let parsedBody = JSON.parse(body);
-        console.log("parsedBody", parsedBody);
+        //console.log("parsedBody", parsedBody);
         let result = parsedBody.result;
         let phoneNo = result?.formatted_phone_number || "";
         let address = result?.formatted_address || "";
         let name = result?.name || "";
         let rating = result?.rating || "";
         let type = result?.type || [];
-        console.log("result:", result);
-
+        //console.log("result:", result);
         res.render("shop/product-detail", {
           path: "/product",
-          pageTitle: "Your Cart",
+          pageTitle: "Place Details",
           products: [],
           product: {
             name: name,
@@ -79,7 +80,8 @@ exports.getProduct = (req, res, next) => {
             imageUrl: imageUrl,
             rating: rating,
             type: type,
-            address: address
+            address: address,
+            passedId: passedId,
           },
         });
       }
@@ -114,7 +116,10 @@ exports.getCart = (req, res, next) => {
 };
 
 exports.postCart = (req, res, next) => {
-  const prodId = req.body.productId;
+  //ADD to DB
+  //then run below code
+  let prodId = JSON.parse(req.body.productId);
+
   Product.findById(prodId)
     .then((product) => {
       return req.user.addToCart(product);
