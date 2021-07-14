@@ -17,4 +17,6 @@ router.get("/products", isAuth, adminController.getProducts);
 // post favorite
 router.post("/postAddProduct", isAuth, adminController.postAddProduct);
 
+router.post('/delete-product', isAuth, adminController.postDeleteProduct);
+
 module.exports = router;
