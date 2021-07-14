@@ -7,11 +7,22 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
-  placeID: {
+  address: {
     type: String,
     required: true,
   },
-
+  rating: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+  passedId: {
+    type: String,
+    required: true,
+  },
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",

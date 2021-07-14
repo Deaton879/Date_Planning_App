@@ -1,5 +1,5 @@
 <%- include('../includes/head.ejs') %>
-<script src="js/apicall.js"></script>
+        <script src="/js/apicall.js"></script>
     </head>
 
     <body>
@@ -8,7 +8,6 @@
             <header class="secondary-header">
                 <h1><%= product.name %></h1>
             </header>
-            <h1><%= product.title %></h1>
             <hr>
             <div class="image">
                 <img src="https://lh3.googleusercontent.com/p/<%= product.imageUrl %>=s1600-w400" alt="<%= product.title %>">
@@ -21,4 +20,10 @@
                 <%- include('../includes/add-to-cart.ejs', {product: product}) %>
             <% } %>
         </main>
+        <script>
+            let url = window.location.href;
+            let key = localStorage.getItem('passedId');
+            console.log(localStorage.getItem(key));
+            document.getElementById('passedId').value = localStorage.getItem(key);
+        </script>
         <%- include('../includes/end.ejs') %>

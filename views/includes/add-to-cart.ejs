@@ -1,7 +1,17 @@
 <form action="/admin/postAddProduct" method="post">
+<<<<<<< HEAD
     <%    console.log(product.placeId); %>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <button class="btn" type="submit">Add to Favorites</button>
     <input type="hidden" name="name" value="<%= product.name %>">
     <input type="hidden" name="placeID" value="<%= product.placeId%>">
+=======
+    <input type="hidden" name="name" value="<%= product.name %>">
+    <input type="hidden" name="address" value="<%= product.address %>">
+    <input type="hidden" name="imageUrl" value="<%= product.imageUrl %>">
+    <input type="hidden" name="rating" value="<%= product.rating %>">
+    <input type="hidden" name="passedId" id="passedId">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button class="btn" type="submit">Add to Favorites</button>
+>>>>>>> 1cd906f306780e95dd72b0b99dc3a5551637affe
 </form>

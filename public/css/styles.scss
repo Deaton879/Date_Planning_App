@@ -180,14 +180,14 @@ body {
                     color: $color-light;
                     h1 { margin: 0; }
                     .product__title {
-                        font-size: 1.2rem;
+                        font-size: 2.2rem;
                         text-align: center;
                     }
                 }
                 
                 .card__image {
                     width: fit-content;
-                    height: 10rem;
+                    height: 15rem;
                     text-align: center;
                     background-color: $color-secondary;
                     padding: .5rem .5rem 1.5rem .5rem;
@@ -208,7 +208,7 @@ body {
 
                     h1, h2, p { margin: 0; }
 
-                    .product__price {
+                    .product__rating {
                         text-align: center;
                         color: $color-dark;
                         margin-bottom: 0.5rem;

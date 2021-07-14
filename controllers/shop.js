@@ -52,6 +52,7 @@ exports.postProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   let placeId = req.params.place_id;
   let imageUrl = req.params.image;
+  let passedId = `/product-detail/${placeId}/${imageUrl}`;
   //console.log("req.params.place_id:", placeId);
   //console.log("req.params.imageUrl:", imageUrl);
   request(
@@ -59,18 +60,17 @@ exports.getProduct = (req, res, next) => {
     function (error, response, body) {
       if (!error && response.statusCode === 200) {
         let parsedBody = JSON.parse(body);
-        console.log("parsedBody", parsedBody);
+        //console.log("parsedBody", parsedBody);
         let result = parsedBody.result;
         let phoneNo = result?.formatted_phone_number || "";
         let address = result?.formatted_address || "";
         let name = result?.name || "";
         let rating = result?.rating || "";
         let type = result?.type || [];
-        console.log("result:", result);
-
+        //console.log("result:", result);
         res.render("shop/product-detail", {
           path: "/product",
-          pageTitle: "Your Cart",
+          pageTitle: "Place Details",
           products: [],
           product: {
             name: name,
@@ -80,7 +80,7 @@ exports.getProduct = (req, res, next) => {
             rating: rating,
             type: type,
             address: address,
-            placeId: placeId,
+            passedId: passedId,
           },
         });
       }

@@ -18,13 +18,26 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const myProduct = req.body.name;
-  const placeID = req.body.placeID;
 
+  //const user = req.session.user;
+  //console.log(req.body.title)
+  const title = req.body.name;
+  const address = req.body.address;
+  const imageUrl = req.body.imageUrl;
+  const rating = req.body.rating;
+  const passedId = req.body.passedId;
+  Product.findOne(title)
+  .then((product) => {
+    if (product) {
+      return;
+    }
   const product = new Product({
     // _id: new mongoose.Types.ObjectId('5badf72403fd8b5be0366e81'),
-    title: myProduct,
-    placeID: placeID,
+    title: title,
+    address: address,
+    rating: rating,
+    imageUrl: imageUrl,
+    passedId: passedId,
     userId: req.user,
   });
   product
@@ -199,13 +212,11 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.find({ userId: req.user._id })
-    // .select('title price -_id')
-    // .populate('userId', 'name')
     .then((products) => {
       console.log(products);
       res.render("admin/products", {
         prods: products,
-        pageTitle: "Admin Products",
+        pageTitle: "Favorites",
         path: "/admin/products",
       });
     })
@@ -216,21 +227,17 @@ exports.getProducts = (req, res, next) => {
     });
 };
 
-exports.deleteProduct = (req, res, next) => {
-  const prodId = req.params.productId;
-  Product.findById(prodId)
-    .then((product) => {
-      if (!product) {
-        return next(new Error("Product not found."));
-      }
-      fileHelper.deleteFile(product.imageUrl);
-      return Product.deleteOne({ _id: prodId, userId: req.user._id });
-    })
+exports.postDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.deleteOne({ _id: prodId, userId: req.user._id })
     .then(() => {
-      console.log("DESTROYED PRODUCT");
-      res.status(200).json({ message: "Success!" });
+      console.log('DESTROYED PRODUCT');
+      res.redirect('/admin/products');
     })
-    .catch((err) => {
-      res.status(500).json({ message: "Deleting product failed." });
-    });
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    }); 
 };
+

@@ -1,18 +1,20 @@
+let num = 0;
+
 const app = async () => {
   zipCode = document.getElementById("zipCode").value;
   if (zipCode == "") {
-    zipCode = 20001;
+    zipCode = prompt("Enter your zipcode")
   }
   type = document.getElementById("type").value;
   const apiURL = `/getGooglePlaces/${zipCode}/${type}`;
   let count = 1;
-  console.log(apiURL);
+  //console.log(apiURL);
 
   try {
     //reaches out to local api to return
     const response = await fetch(apiURL);
     const json = await response.json();
-    console.log(json);
+    //console.log(json);
     json.results.forEach((element) => {
       addPlaceToHTML(element, count);
       count++;
@@ -53,8 +55,14 @@ const addPlaceToHTML = async (element, id) => {
   }
   //add place to products page
   place = await obj(element, myimage, id);
+<<<<<<< HEAD
   //console.log(myPlaces, place);
   myPlaces.append(stringToHTML(place));
+=======
+
+  myPlaces.append(stringToHTML(place));
+  
+>>>>>>> 1cd906f306780e95dd72b0b99dc3a5551637affe
 };
 
 const testFunc = (event) => {
@@ -76,8 +84,18 @@ const obj = (
   let urls = image.replace("https://lh3.googleusercontent.com/p/", "");
   let url2 = urls.replace("=s1600-w400", "");
 
+<<<<<<< HEAD
   console.log("url", url2);
   return `<div class="grid">
+=======
+  let passedId = `/product-detail/${place_id}/${url2}`;
+  
+  localStorage.setItem(`passedId${num}`, passedId);
+  
+  console.log(localStorage.getItem(`passedId${num}`))
+  let result = `
+    <div class="grid">
+>>>>>>> 1cd906f306780e95dd72b0b99dc3a5551637affe
         <article class="card product-item">
             <header class="card__header">
                 <h2 class="product__title">${name}</h2>
@@ -93,10 +111,20 @@ const obj = (
                     </p>
             </div>
             <div class="card__actions">
+<<<<<<< HEAD
                 <a href="/product-detail/${place_id}/${url2}" class="btn">Details</a>
               </div>
         </article>
     </div>`;
+=======
+                <a href="${passedId}" class="btn" id="passedId${num}" onclick="saveId(this.id)">Details</a>
+                <input type="hidden" value="passedId${num}">
+            </div>
+        </article>
+    </div>`;
+  num++;
+  return result;
+>>>>>>> 1cd906f306780e95dd72b0b99dc3a5551637affe
 };
 
 //converts the string to HTML for site to display
