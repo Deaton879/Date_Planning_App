@@ -80,6 +80,7 @@ exports.getProduct = (req, res, next) => {
             rating: rating,
             type: type,
             address: address,
+            placeId: placeId,
           },
         });
       }

@@ -18,17 +18,13 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  const zipCode = req.body.zipCode;
-  console.log(res.params.product);
-  const type = req.body.type;
-  const address = req.body.address;
-  const rating = req.body.rating;
+  const myProduct = req.body.name;
+  const placeID = req.body.placeID;
+
   const product = new Product({
     // _id: new mongoose.Types.ObjectId('5badf72403fd8b5be0366e81'),
-    title: title,
-    type: type,
-    rating: rating,
-    imageUrl: imageUrl,
+    title: myProduct,
+    placeID: placeID,
     userId: req.user,
   });
   product

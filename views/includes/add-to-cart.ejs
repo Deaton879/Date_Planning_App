@@ -1,6 +1,7 @@
 <form action="/admin/postAddProduct" method="post">
-    <input type="hidden" name="product" value="<%= product %>">
+    <%    console.log(product.placeId); %>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <button class="btn" type="submit">Add to Favorites</button>
-    <input type="hidden" name="productId" value="<%= product._id %>">
+    <input type="hidden" name="name" value="<%= product.name %>">
+    <input type="hidden" name="placeID" value="<%= product.placeId%>">
 </form>
