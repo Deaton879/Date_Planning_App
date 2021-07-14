@@ -14,4 +14,7 @@ router.get("/add-product", isAuth, adminController.getAddProduct);
 // /admin/products => GET
 router.get("/products", isAuth, adminController.getProducts);
 
+// post favorite
+router.post("/postAddProduct", isAuth, adminController.postAddProduct);
+
 module.exports = router;

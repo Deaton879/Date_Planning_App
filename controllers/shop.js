@@ -19,7 +19,7 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.postAddToFavorites = (req, res, next) => {
-  console.log('fine');
+  console.log("fine");
   const zipCode = req.body.zipCode;
   const type = req.body.type;
   const address = req.body.address;
@@ -79,7 +79,7 @@ exports.getProduct = (req, res, next) => {
             imageUrl: imageUrl,
             rating: rating,
             type: type,
-            address: address
+            address: address,
           },
         });
       }
@@ -114,7 +114,10 @@ exports.getCart = (req, res, next) => {
 };
 
 exports.postCart = (req, res, next) => {
-  const prodId = req.body.productId;
+  //ADD to DB
+  //then run below code
+  let prodId = JSON.parse(req.body.productId);
+
   Product.findById(prodId)
     .then((product) => {
       return req.user.addToCart(product);
