@@ -5,7 +5,6 @@ const fetch = require("node-fetch");
 const request = require("request");
 const PDFDocument = require("pdfkit");
 
-
 const Product = require("../models/product");
 const Order = require("../models/order");
 

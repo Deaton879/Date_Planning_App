@@ -3,7 +3,7 @@ let num = 0;
 const app = async () => {
   zipCode = document.getElementById("zipCode").value;
   if (zipCode == "") {
-    zipCode = prompt("Enter your zipcode")
+    zipCode = prompt("Enter your zipcode");
   }
   type = document.getElementById("type").value;
   const apiURL = `/getGooglePlaces/${zipCode}/${type}`;
@@ -55,9 +55,7 @@ const addPlaceToHTML = async (element, id) => {
   }
   //add place to products page
   place = await obj(element, myimage, id);
-
   myPlaces.append(stringToHTML(place));
-  
 };
 
 const testFunc = (event) => {
@@ -78,12 +76,11 @@ const obj = (
   //console.log("image:", image);
   let urls = image.replace("https://lh3.googleusercontent.com/p/", "");
   let url2 = urls.replace("=s1600-w400", "");
-
   let passedId = `/product-detail/${place_id}/${url2}`;
-  
+
   localStorage.setItem(`passedId${num}`, passedId);
-  
-  console.log(localStorage.getItem(`passedId${num}`))
+
+  console.log(localStorage.getItem(`passedId${num}`));
   let result = `
     <div class="grid">
         <article class="card product-item">

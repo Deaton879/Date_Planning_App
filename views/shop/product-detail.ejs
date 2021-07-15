@@ -16,6 +16,7 @@
             <p><%= product.address %></p>
             <p><%= product.phone %></p>
             <% if (isAuthenticated) { %>
+                <% console.log(JSON.stringify(product) + "stupid thing"); %>
                 <%- include('../includes/add-to-cart.ejs', {product: product}) %>
             <% } %>
         </main>

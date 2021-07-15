@@ -25,28 +25,114 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const rating = req.body.rating;
   const passedId = req.body.passedId;
-  const product = new Product({
-    // _id: new mongoose.Types.ObjectId('5badf72403fd8b5be0366e81'),
-    title: title,
-    address: address,
-    rating: rating,
-    imageUrl: imageUrl,
-    passedId: passedId,
-    userId: req.user,
+  //Check if favorit is in data base if it is stop
+  Product.findOne({ title: title }).then((product) => {
+    console.log(product, product != null);
+    if (!product) {
+      const product = new Product({
+        // _id: new mongoose.Types.ObjectId('5badf72403fd8b5be0366e81'),
+        title: title,
+        address: address,
+        rating: rating,
+        imageUrl: imageUrl,
+        passedId: passedId,
+        userId: req.user,
+      });
+      product
+        .save()
+        .then((result) => {
+          // console.log(result);
+          console.log("Created Product");
+          return res.redirect("/admin/products");
+        })
+        .catch((err) => {
+          const error = new Error(err);
+          error.httpStatusCode = 500;
+          return next(error);
+        });
+    } else {
+      res.redirect("/");
+    }
   });
-  product
-    .save()
-    .then((result) => {
-      // console.log(result);
-      console.log("Created Product");
-      res.redirect("/admin/products");
-    })
-    .catch((err) => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
 };
+
+// exports.postAddProduct = (req, res, next) => {
+//   const title = req.body.title;
+//   const image = req.file;
+//   const price = req.body.price;
+//   const description = req.body.description;
+//   if (!image) {
+//     return res.status(422).render('admin/edit-product', {
+//       pageTitle: 'Add Product',
+//       path: '/admin/add-product',
+//       editing: false,
+//       hasError: true,
+//       product: {
+//         title: title,
+//         price: price,
+//         description: description
+//       },
+//       errorMessage: 'Attached file is not an image.',
+//       validationErrors: []
+//     });
+//   }
+//   const errors = validationResult(req);
+
+//   if (!errors.isEmpty()) {
+//     console.log(errors.array());
+//     return res.status(422).render('admin/edit-product', {
+//       pageTitle: 'Add Product',
+//       path: '/admin/add-product',
+//       editing: false,
+//       hasError: true,
+//       product: {
+//         title: title,
+//         price: price,
+//         description: description
+//       },
+//       errorMessage: errors.array()[0].msg,
+//       validationErrors: errors.array()
+//     });
+//   }
+
+//   const imageUrl = image.path;
+
+//   const product = new Product({
+//     // _id: new mongoose.Types.ObjectId('5badf72403fd8b5be0366e81'),
+//     title: title,
+//     price: price,
+//     description: description,
+//     imageUrl: imageUrl,
+//     userId: req.user
+//   });
+//   product
+//     .save()
+//     .then(result => {
+//       // console.log(result);
+//       console.log('Created Product');
+//       res.redirect('/admin/products');
+//     })
+//     .catch(err => {
+//       // return res.status(500).render('admin/edit-product', {
+//       //   pageTitle: 'Add Product',
+//       //   path: '/admin/add-product',
+//       //   editing: false,
+//       //   hasError: true,
+//       //   product: {
+//       //     title: title,
+//       //     imageUrl: imageUrl,
+//       //     price: price,
+//       //     description: description
+//       //   },
+//       //   errorMessage: 'Database operation failed, please try again.',
+//       //   validationErrors: []
+//       // });
+//       // res.redirect('/500');
+//       const error = new Error(err);
+//       error.httpStatusCode = 500;
+//       return next(error);
+//     });
+// };
 
 exports.getEditProduct = (req, res, next) => {
   const editMode = req.query.edit;
@@ -128,8 +214,6 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   Product.find({ userId: req.user._id })
-    // .select('title price -_id')
-    // .populate('userId', 'name')
     .then((products) => {
       console.log(products);
       res.render("admin/products", {
@@ -149,13 +233,12 @@ exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   Product.deleteOne({ _id: prodId, userId: req.user._id })
     .then(() => {
-      console.log('DESTROYED PRODUCT');
-      res.redirect('/admin/products');
+      console.log("DESTROYED PRODUCT");
+      res.redirect("/admin/products");
     })
-    .catch(err => {
+    .catch((err) => {
       const error = new Error(err);
       error.httpStatusCode = 500;
       return next(error);
-    }); 
+    });
 };
-
